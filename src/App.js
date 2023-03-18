@@ -1,9 +1,27 @@
-import './App.css'
+import { useState } from "react";
+import { useEffect } from "react";
+import Wordle from "./components/Wordle";
 
+/* The function below uses a json file that contains 15 words of length 5 each
+* 
+*/
 function App() {
+  const [solution, setsolution] = useState(null)
+
+  useEffect(() => {
+    fetch('http://localhost:3001/solutions')
+      .then(response => response.json())
+      .then(json => {
+        const randomSolution = json[Math.floor(Math.random()*json.length)]
+        setsolution(randomSolution.word)
+      //   //random integer between 0 - 14(total 15 items in the array) 
+     })
+  }, [setsolution])
+
   return (
     <div className="App">
-      <h1>Wordle (Lingo)</h1>
+      <h1>Wordle (Trial)</h1>
+      {solution && < Wordle solution = {solution} />}
     </div>
   );
 }
